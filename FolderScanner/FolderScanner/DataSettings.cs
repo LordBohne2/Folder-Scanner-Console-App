@@ -25,6 +25,8 @@ namespace RandomPicSpam
         public bool Allow_jpg { get; set; }
         public bool Allow_gif { get; set; }
         public bool Allow_exe { get; set; }
+        public bool Allow_mp3 { get; set; }
+        public bool Allow_mp4 { get; set; }
 
         public bool ShowFolderPathInConsole { get; set; }
         public bool ShowFilePathInConsole { get; set; }

@@ -46,6 +46,8 @@ namespace RandomPicSpam
             int jpgCounterSaved = 0;
             int gifCounterSaved = 0;
             int exeCounterSaved = 0;
+            int mp3CounterSaved = 0;
+            int mp4CounterSaved = 0;
 
             int txtCounterNotSaved = 0;
             int htmlCounterNotSaved = 0;
@@ -58,6 +60,8 @@ namespace RandomPicSpam
             int jpgCounterNotSaved = 0;
             int gifCounterNotSaved = 0;
             int exeCounterNotSaved = 0;
+            int mp3CounterNotSaved = 0;
+            int mp4CounterNotSaved = 0;
 
             // Random
             string randomDirectory;
@@ -312,6 +316,8 @@ namespace RandomPicSpam
                     Allow_jpg = false,
                     Allow_gif = false,
                     Allow_exe = false,
+                    Allow_mp3 = false,
+                    Allow_mp4 = false,
 
                     ShowFolderPathInConsole = true,
                     ShowFilePathInConsole = true
@@ -488,6 +494,24 @@ namespace RandomPicSpam
                         else
                             exeCounterNotSaved++;
                         break;
+                    case ".mp3":
+                        if (settings.Allow_mp3)
+                        {
+                            CopyFile(filePath);
+                            mp3CounterSaved++;
+                        }
+                        else
+                            mp3CounterNotSaved++;
+                        break;
+                    case ".mp4":
+                        if (settings.Allow_mp4)
+                        {
+                            CopyFile(filePath);
+                            mp4CounterSaved++;
+                        }
+                        else
+                            mp4CounterNotSaved++;
+                        break;
                     default:
                         otherFilesType++;
                         break;
@@ -558,6 +582,10 @@ namespace RandomPicSpam
                         Console.WriteLine($"\tSaved {gifCounterSaved} .gif files. Failed {gifCounterNotSaved}");
                     if (settings.Allow_exe)
                         Console.WriteLine($"\tSaved {exeCounterSaved} .exe files. Failed {exeCounterNotSaved}");
+                    if (settings.Allow_mp3)
+                        Console.WriteLine($"\tSaved {mp3CounterSaved} .mp3 files. Failed {mp3CounterNotSaved}");
+                    if (settings.Allow_mp4)
+                        Console.WriteLine($"\tSaved {mp4CounterSaved} .mp4 files. Failed {mp4CounterNotSaved}");
                     Console.WriteLine();
 
                     Console.WriteLine("Files found: ");
@@ -572,6 +600,8 @@ namespace RandomPicSpam
                     Console.WriteLine($"\t{jpgCounterNotSaved + jpgCounterSaved} .jpg files");
                     Console.WriteLine($"\t{gifCounterNotSaved + gifCounterSaved} .gif files");
                     Console.WriteLine($"\t{exeCounterNotSaved + exeCounterSaved} .exe files");
+                    Console.WriteLine($"\t{mp3CounterNotSaved + mp3CounterSaved} .mp3 files");
+                    Console.WriteLine($"\t{mp4CounterNotSaved + mp4CounterSaved} .mp4 files");
 
                     Console.WriteLine();
                     Console.WriteLine($"\tOther Files Type: {otherFilesType}");
@@ -616,6 +646,10 @@ namespace RandomPicSpam
                         Console.WriteLine("\t.gif");
                     if (settings.Allow_exe)
                         Console.WriteLine("\t.exe");
+                    if (settings.Allow_mp3)
+                        Console.WriteLine("\t.mp3");
+                    if (settings.Allow_mp4)
+                        Console.WriteLine("\t.mp4");
                 }
 
                 if (settings.Allow_SaveFolderPath)
