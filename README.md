@@ -5,7 +5,7 @@ There may be errors because I have not tested everything.
 ### **Please use it with caution as some features will surely clutter up your pc**
 **- you have been warned -**
 
-To Deactivate or Activate go to the App Locataion .\Settings\Settings.json file
+To Deactivate or Activate some feature go to the App Locataion .\Settings\Settings.json file
 
 # Features:
 - Write Folder Path on a .txt
