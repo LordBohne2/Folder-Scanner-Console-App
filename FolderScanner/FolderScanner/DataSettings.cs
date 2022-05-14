@@ -13,6 +13,7 @@ namespace RandomPicSpam
         public bool Allow_CopyFiles { get; set; }
         public bool Allow_Spammer { get; set; }
         public int HowManyFilesSpamming { get; set; }
+        public bool GetRandomFilePath { get; set; }
 
         public bool Allow_txt { get; set; }
         public bool Allow_html { get; set; }

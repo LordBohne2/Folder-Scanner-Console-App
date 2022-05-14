@@ -21,7 +21,7 @@ namespace RandomPicSpam
             string path;
 
             // Get Start Folder
-            string[] pathStart = { "Nope" };
+            string[] pathStart = { "" };
             var folderPathList = new List<string>();
             var filePathList = new List<string>();
 
@@ -74,7 +74,6 @@ namespace RandomPicSpam
             // Loop
             bool backToTop;
 
-
             var settings = Json();
 
             UserInput();
@@ -90,8 +89,10 @@ namespace RandomPicSpam
                 FolderPathStreamer();
             if (settings.Allow_SaveFilePath)
                 FilePathStreamer();
+            if (settings.GetRandomFilePath)
+                GetRandomFile();
             if (settings.Allow_Spammer)
-                ImageSpammer();
+                FileSpammer();
 
             ShowFinalResults();
 
@@ -113,7 +114,7 @@ namespace RandomPicSpam
 
             void UserInput()
             {
-                EnabledFeatures();
+                ShowEnabledFeatures();
 
                 do
                 {
@@ -132,7 +133,6 @@ namespace RandomPicSpam
                         backToTop = true;
                         Console.Clear();
                     }
-
 
                     // Specific Folder
                     if (select == 1)
@@ -158,7 +158,7 @@ namespace RandomPicSpam
                         } while (backToTop == true);
                     }
 
-                    //System Directory
+                    // System Directory
                     else if (select == 2)
                     {
                         if (settings.Allow_CopyFiles)
@@ -229,6 +229,7 @@ namespace RandomPicSpam
                     catch (IOException io)
                     {
                         Console.WriteLine("File Error: \n" + io);
+                        errorFile++;
                     }
                     catch (Exception ex)
                     {
@@ -257,12 +258,18 @@ namespace RandomPicSpam
                 }
             }
 
+            void GetRandomFile()
+            {
+                Random rnd = new();
+                Console.WriteLine("Random File: " + filePathList[rnd.Next(filePathList.Count)]);
+            }
+
             // Path Writer
             void FolderPathStreamer()
             {
                 PathFolderExistCheck();
 
-                StreamWriter streamWriter = new StreamWriter(@"PathList\FolderPath.txt");
+                StreamWriter streamWriter = new(@"PathList\FolderPath.txt");
 
                 // Write all Folder Direction on a text document
                 foreach (var item in folderPathList)
@@ -294,6 +301,7 @@ namespace RandomPicSpam
                 if (!exists)
                     Directory.CreateDirectory(Directory.GetCurrentDirectory() + @"\PathList");
             }
+
             // Json
             DataSettings Json()
             {
@@ -304,6 +312,7 @@ namespace RandomPicSpam
                     Allow_CopyFiles = false,
                     Allow_Spammer = false,
                     HowManyFilesSpamming = 5,
+                    GetRandomFilePath = false,
 
                     Allow_txt = true,
                     Allow_html = false,
@@ -616,7 +625,7 @@ namespace RandomPicSpam
                 }
             }
 
-            void EnabledFeatures()
+            void ShowEnabledFeatures()
             {
                 Console.WriteLine("Enabled Features: ");
                 Console.WriteLine("------------------");
@@ -651,7 +660,8 @@ namespace RandomPicSpam
                     if (settings.Allow_mp4)
                         Console.WriteLine("\t.mp4");
                 }
-
+                if (settings.GetRandomFilePath)
+                    Console.WriteLine("- Get Random File");
                 if (settings.Allow_SaveFolderPath)
                     Console.WriteLine("- Save Folder Path in .txt File");
                 if (settings.Allow_SaveFilePath)
@@ -671,14 +681,14 @@ namespace RandomPicSpam
             }
 
             // Spammer
-            void ImageSpammer()
+            void FileSpammer()
             {
                 // Random
-                Random rnd = new Random();
+                Random rnd = new();
                 var SpammerPathList = new List<string>();
 
                 // Get Image Path
-                string imagePath = Directory.GetCurrentDirectory() + @"\FileSpammer\";
+                string filePath = Directory.GetCurrentDirectory() + @"\FileSpammer\";
 
                 string[] filesName;  // Get Files from Image Folder
 
@@ -697,7 +707,7 @@ namespace RandomPicSpam
                     // Get Image and Copy to Path
                     try
                     {
-                        filesName = Directory.GetFiles(imagePath); // Get Files from Image Folder
+                        filesName = Directory.GetFiles(filePath); // Get Files from Image Folder
                         randomImageNUM = rnd.Next(filesName.Length); // Get Random File Array
                         finalImagePath = new DirectoryInfo(filesName[randomImageNUM]).FullName; // Get final Image + FullPath
                         finalSpammerPath = randomDirectory + $"/" + Path.GetFileName(finalImagePath);
@@ -722,7 +732,7 @@ namespace RandomPicSpam
             {
                 PathFolderExistCheck();
 
-                StreamWriter streamWriter = new StreamWriter(@"PathList\SpammerPath.txt");
+                StreamWriter streamWriter = new(@"PathList\SpammerPath.txt");
 
                 // Write all Spammer Files Path
                 foreach (var item in SpammerPathList)
